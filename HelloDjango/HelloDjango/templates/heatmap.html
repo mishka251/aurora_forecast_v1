@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>
+      2d view for aurora forecast
+    </title>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.18/esri/themes/dark-red/main.css"
+    />
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        background-color: black;
+      }
+    </style>
+
+    <script src="https://js.arcgis.com/4.18/"></script>
+
+    <script>
+      require([
+        "esri/WebMap",
+        "esri/layers/CSVLayer",
+        "esri/views/MapView",
+        "esri/widgets/Legend",
+        "esri/widgets/Expand"
+      ], function (WebMap, CSVLayer, MapView, Legend, Expand) {
+          const url =  "http://aurora-forecast.ru/aurora_ext1.csv";
+        const csvLayer = new CSVLayer({
+          title: "Intensivity",
+          url: url,
+          copyright: "NOAA",
+          popupTemplate: {
+            title: "{Name}",
+            content: [
+              {
+                type: "text",
+                text:
+                  "lat {latitude} long {longitude} cat {category}."
+              },
+              {
+                type: "fields",
+                fieldInfos: [
+                  {
+                    fieldName: "wmo_pres",
+                    label: "Pressure"
+                  },
+                  {
+                    fieldName: "wmo_wind",
+                    label: "Wind Speed (mph)"
+                  }
+                ]
+              }
+            ],
+            fieldInfos: [
+              {
+                fieldName: "ISO_time",
+                format: {
+                  dateFormat: "short-date-short-time"
+                }
+              }
+            ]
+          },
+
+          renderer : {
+          type: "heatmap",
+          colorStops: [
+            { color: "rgba(63, 40, 102, 0)", ratio: 0 },
+            { color: "#1d4e89", ratio: 0.083 },
+            { color: "#4872a4", ratio: 0.166 },
+            { color: 	"#7295bf", ratio: 0.249 },
+            { color: "#9aacae", ratio: 0.332 },
+            { color: "#c2c29c", ratio: 0.415 },
+            { color: "#ead98b", ratio: 0.498 },
+            { color: "#deba87", ratio: 0.581 },
+            { color: "#db9793", ratio: 0.664 },
+            { color: "#ba6f75", ratio: 0.747 },
+            { color: "#954151", ratio: 0.935 },
+          ],
+          maxPixelIntensity: 500,
+          minPixelIntensity: 0
+        }
+        });
+console.log(csvLayer);
+csvLayer.opacity = 0.65;
+        const map = new WebMap({
+          basemap: {
+            portalItem: {
+              id: "3113eacc129942b4abde490a51aeb33f"
+            }
+          },
+          layers: [csvLayer]
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          highlightOptions: {
+            color: "#ff642e",
+            haloOpacity: 1,
+            fillOpacity: 0.25
+          },
+          popup: {
+            dockEnabled: true,
+            dockOptions: {
+              breakpoint: false
+            }
+          }
+        });
+
+        const legendExpand = new Expand({
+          view: view,
+          content: new Legend({
+            view: view,
+            style: "card"
+          })
+        });
+        view.ui.add(legendExpand, "top-left");
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>

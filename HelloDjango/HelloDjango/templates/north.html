@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Project</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        background-color: black;
+      }
+      #optionsDiv {
+        position: absolute;
+        bottom: 17px;
+        width: 100%;
+        padding: 20px 0;
+        z-index: 1;
+        text-align: center;
+      }
+      button {
+        border: 5px;
+        margin: 5px;
+        background-color:rgba(56,56,56,0.6);
+        color:rgba(255,255,255, 0.6);
+        font-size: smaller;
+        padding-left:5px; 
+        padding-right:5px;
+        position: static;
+        z-index:1;
+      }
+
+      button:hover {
+        background: #546670;
+        color: white;
+        cursor: pointer;
+      }
+      #viewDiv2 {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        position:fixed;
+        background:none;
+      }
+#crt_ertdlyYY{
+    position: absolute;
+    bottom: 30px; 
+    right: 10px;
+    z-index:1;
+    opacity: 0.6;
+    display:block;
+    transition: 2s;
+}
+#crt_ertdlyY{
+    position: absolute;
+    bottom: 200px; 
+    right: 10px;
+    z-index:1;
+    opacity: 0.6;
+    display:block;
+    transition: 2s;
+}
+#crt_ertdly{
+    position: absolute;
+    bottom: 370px; 
+    right: 10px;
+    z-index:1;
+    opacity: 0.6;
+    display:block;
+    transition: 2s;
+}
+.active{
+opacity: 1;
+height: 150px;
+}
+
+body {background: url(https://html5book.ru/wp-content/uploads/2015/07/background39.png);}
+#a{
+  position:absolute;
+  left:183px;
+  bottom:65px;
+ border: 5px;
+    margin: 5px;
+        background-color:rgba(56,56,56,0.6);
+        color:rgba(255,255,255, 0.6);
+        font-size: smaller;
+        padding-left:5px; 
+        padding-right:5px;
+        z-index:101;
+}
+#a:hover {
+  background: #546670;
+  color: white;
+  cursor: pointer;
+}
+      #viewDiv canvas {
+        filter: drop-shadow(16px 16px 10px rgba(0, 0, 0, 0.5));
+      }
+
+      .esri-legend {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
+    />
+   <!--  <script src="https://js.arcgis.com/4.14/"></script> -->
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+ <script src="http://seeynr.beget.tech/jquery.csv.min.js"></script>
+ <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript"> // load the visualisation API
+  google.load('visualization', '1', { packages: ['corechart', 'controls'] });
+  setTimeout(function(){
+    location.reload();
+}, 240000);
+</script>
+
+<script type="text/javascript">
+const url_ =  "http://seeynr.beget.tech/mag_ext.json"
+ $.getJSON(url_, function(data){
+  console.log(data);
+
+  $.each(data, function(key, val){
+    var time = val.time_tag;
+    var bx = val.bx_gsm;
+    var by = val.by_gsm;
+    var bz = val.bz_gsm;
+    var long = val.lon_gsm;
+    var lat = val.lat_gsm;
+    var bt = val.bt;
+
+        document.getElementById("genat").innerHTML = time;
+        document.getElementById("bx").innerHTML = bx;
+        document.getElementById("by").innerHTML = by;
+        document.getElementById("bz").innerHTML = bz;
+        document.getElementById("bt").innerHTML = bt;
+        document.getElementById("lat").innerHTML = lat;
+        document.getElementById("long").innerHTML = long;
+  });
+
+});
+const url__ =  "http://seeynr.beget.tech/plas_ext.json"
+ $.getJSON(url__, function(data){
+  console.log(data);
+
+  $.each(data, function(key, val){
+    var dens = val.density;
+    var temp = val.temperature;
+    var speed = val.speed;
+
+        document.getElementById("prdens").innerHTML = dens;
+        document.getElementById("iontemp").innerHTML = temp;
+        document.getElementById("bulkspeed").innerHTML = speed;
+  });
+
+});
+
+
+/*function hide_show()
+{
+    
+    var div=document.getElementById("crt_ertdlyYY").style.display;
+    var opp=document.getElementById("crt_ertdlyYY").style.opacity;
+    var div1=document.getElementById("crt_ertdly").style.display;
+    var opp1=document.getElementById("crt_ertdly").style.opacity;
+    var div2=document.getElementById("crt_ertdlyY").style.display;
+    var opp2=document.getElementById("crt_ertdlyY").style.opacity;
+    
+    var a=document.getElementById("a").innerHTML;
+ 
+    
+    if(div=="")div="none";
+    if(div1=="")div1="none";
+    if(div2=="")div2="none";
+ 
+  
+    if(div=="none")
+    {
+        div="block";
+        div2="block";
+        div1="block";
+        opp = "0.6";
+        opp1 = "0.6";
+        opp2 = "0.6";
+        a="Close graphics";
+    }
+    else
+    {
+        div="none";
+        div1="none";
+        div2="none";
+        opp = "0";
+        opp1 = "0";
+        opp2 = "0";
+        a="Show graphics";
+    }
+    document.getElementById("a").innerHTML=a;
+    document.getElementById("crt_ertdlyYY").style.display=div;
+    document.getElementById("crt_ertdlyYY").style.opacity=opp;
+    document.getElementById("crt_ertdly").style.display=div1;
+    document.getElementById("crt_ertdly").style.opacity=opp1;
+    document.getElementById("crt_ertdlyY").style.display=div2;
+    document.getElementById("crt_ertdlyY").style.opacity=opp2;
+}*/
+
+const url =  "http://seeynr.beget.tech/ifr.csv";
+function drawVisualization() {
+   $.get(url, function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // CAPACITY - En-route ATFM delay - YY - CHART
+      var crt_ertdlyYY = new google.visualization.ChartWrapper({
+         chartType: 'LineChart',
+         containerId: 'crt_ertdlyYY',
+         dataTable: data,
+                      
+         options:{
+              legend: 'none',
+            width: 400, height: 160,
+            title: 'Density, #/cc',
+            titleTextStyle : {color: 'white', fontSize: 11},
+                backgroundColor: '#373737',
+                hAxis: {
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                vAxis: {
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                is3D: true
+                 }
+      });
+      crt_ertdlyYY.draw();
+   });
+}
+google.setOnLoadCallback(drawVisualization)
+const url1 =  "http://seeynr.beget.tech/ifr1.csv";
+function drawVisualization1() {
+   $.get(url1, function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // CAPACITY - En-route ATFM delay - YY - CHART
+      var crt_ertdlyY = new google.visualization.ChartWrapper({
+         chartType: 'LineChart',
+         containerId: 'crt_ertdlyY',
+         dataTable: data,
+         options:{
+             bar: {groupWidth: '95%'},
+             legend: 'none',
+            width: 400, height: 160,
+            title: 'Temperature, K',
+            textStyle:{color: '#FFF'},
+            titleTextStyle : {color: 'white', fontSize: 11},
+           backgroundColor: '#373737',
+                hAxis: {
+         baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                vAxis: {
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                    gridlines: { count:5 },
+                textStyle:{color: '#FFF'},
+                },
+                is3D: true
+         }
+      });
+      crt_ertdlyY.draw();
+   });
+}
+google.setOnLoadCallback(drawVisualization1)
+const url2 =  "http://seeynr.beget.tech/ifr2.csv";
+function drawVisualization2() {
+   $.get(url2, function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // CAPACITY - En-route ATFM delay - YY - CHART
+      var crt_ertdly = new google.visualization.ChartWrapper({
+         chartType: 'LineChart',
+         containerId: 'crt_ertdly',
+         dataTable: data,
+         options:{
+             legend: 'none',
+            width: 400, height: 160,
+            title: 'Speed, km/s',
+            titleTextStyle : {color: 'white', fontSize: 11},
+                backgroundColor: '#373737',
+                hAxis: {
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                is3D: true,
+                vAxis: { gridlines: { count:5 },
+                 baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'} }
+         }
+      });
+      crt_ertdly.draw();
+   });
+}
+google.setOnLoadCallback(drawVisualization2)
+</script>
+<script src="https://js.arcgis.com/4.14/"></script>
+    <script>
+      require([
+        "esri/Map",
+        "esri/layers/CSVLayer",
+        "esri/views/SceneView"
+      ], function(Map, CSVLayer, SceneView) {
+
+
+
+        // If CSV files are not on the same domain as your website, a CORS enabled server
+        // or a proxy is required.
+        const url =  "aurora_ext.csv";
+        const url1 = "stations.csv";
+         // Paste the url into a browser's address bar to download and view the attributes
+        // in the CSV file. These attributes include:
+        // * mag - magnitude
+        // * type - earthquake or other event such as nuclear test
+        // * place - location of the event
+        // * time - the time of the event
+
+        const template = {
+          title: "Infos",
+          content: "Intensivity {category} latitude {latitude} longitude {longitude}."
+        };
+
+        const csvLayer = new CSVLayer({
+          url: url,
+          copyright: "Infos",
+          popupTemplate: template
+        });
+        
+        const template1 = {
+          title: "Infos",
+          content: "Iaga {IAGA} latitude {latitude} longitude {longitude}."
+        };
+
+        const csvLayer1 = new CSVLayer({
+          url: url1,
+          copyright: "Infos",
+          popupTemplate: template1
+        });
+
+function shiftCamera(deg) {
+          var camera = view.camera.clone();
+          camera.position.longitude += deg;
+          camera.position.latitude += -30;
+          return camera;
+        }
+        var _i = 5000;
+        var timerID;
+        
+        document
+          .getElementById("linearSlow")
+          .addEventListener("click", timerID = function() {
+            setInterval(function() {
+            view.goTo(
+              shiftCamera(155),
+              {
+                speedFactor: 0.1,
+                easing: "linear"
+                      }
+                );
+        }, _i );
+    });
+    
+         document
+          .getElementById("Northern Hemisphere")
+          .addEventListener("click", function() {
+              clearInterval(timerID);
+            view.goTo(
+              {
+                position: {
+                  x: 1,
+                  y: 89,
+                  z: 15000000,
+                  spatialReference: {
+                    wkid: 4326
+                  }
+                },
+                heading: 0,
+                tilt: 0
+              },
+              {
+                speedFactor: 0.3,
+                easing: "linear"
+              }
+            );
+          });
+          document
+          .getElementById("Southern Hemisphere")
+          .addEventListener("click", function() {
+            view.goTo(
+              {
+                position: {
+                  x: 1,
+                  y: -89,
+                  z: 15000000,
+                  spatialReference: {
+                    wkid: 4326
+                  }
+                },
+                heading: 0,
+                tilt: 0
+              },
+              {
+                speedFactor: 0.3,
+                easing: "linear"
+              }
+            );
+          });
+          document
+          .getElementById("Russia PoV")
+          .addEventListener("click", function() {
+            view.goTo(
+              {
+                position: {
+                  x: 103.4,
+                  y: 66.52,
+                  z: 7900000,
+                  spatialReference: {
+                    wkid: 4326
+                  }
+                },
+                heading: 0,
+                tilt: 0
+              },
+              {
+                speedFactor: 0.3,
+                easing: "linear"
+              }
+            );
+          });
+        csvLayer.renderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "point-3d", // autocasts as new PointSymbol3D()
+            // for this symbol we use 2 symbol layers, one for the outer circle
+            // and one for the inner circle
+            symbolLayers: [
+              {
+                type: "icon", // autocasts as new IconSymbol3DLayer()
+                size:15
+              }
+              /*,
+              {
+                type: "icon", // autocasts as new IconSymbol3DLayer()
+                resource: { primitive: "circle" },
+                material: { color: [255, 84, 54, 0] },
+                outline: { color: [255, 84, 54, 0.6], size: 1 },
+                size: 25
+              }*/
+            ]
+          },
+          visualVariables: [
+              {
+      type: "size",
+      field: "Category",
+  stops: [
+    { value: 4, size: 8},
+    { value: 30, size: 8}
+  ]},
+            {
+              type: "color",
+              field: "category",
+              stops: [
+        { value: 4, color: [0, 116, 165,0.1] }, 
+        { value: 10, color: [246, 255, 146,0.15] },
+       { value: 15, color: 	[255, 200, 47,0.2] },
+       { value: 22, color: [241, 106, 22,0.23] },
+        { value: 28, color: [231, 51, 26,0.28] },
+        { value: 100, color: [255, 0, 0,0.4] }
+      ]
+              /*stops: [
+                {
+                  value: 30,
+                  color:  [193, 0, 32,0.3]
+                },
+                {
+                  value: 18,
+                  color: [193, 0, 32,0.15]
+                },
+                {
+                  value: 6,
+                  color: [193, 0, 32,0.1]
+                }
+              ]*/
+            },
+          ]
+        };
+        csvLayer1.renderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "point-3d", // autocasts as new PointSymbol3D()
+            // for this symbol we use 2 symbol layers, one for the outer circle
+            // and one for the inner circle
+            symbolLayers: [
+              {
+                type: "icon", // autocasts as new IconSymbol3DLayer()
+                resource: { primitive: "circle" },
+                material: { color: [255, 84, 54, 1] },
+                size: 3
+              },
+              {
+                type: "icon", // autocasts as new IconSymbol3DLayer()
+                resource: { primitive: "circle" },
+                material: { color: [255, 84, 54, 0] },
+                outline: { color: [255, 84, 54, 0.6], size: 1 },
+                size: 5
+              }
+            ]
+          }
+        };
+//csvLayer.opacity = 0.1;
+csvLayer.opacity = 1;
+csvLayer1.opacity = 0.65;
+        const map = new Map({
+          basemap: "streets-night-vector",
+        ground: "world-elevation",
+        maxZoom: 5,
+        effectiveMaxZoom:5,
+        effectiveMinZoom:5,
+        minZoom: 5,
+        maxScale: 5000000
+
+        });
+
+        map.add(csvLayer);
+        map.add(csvLayer1);
+
+        const view = new SceneView({
+          container: "viewDiv",
+          map: map,
+          scale: 50000000,
+          minScale:30000000,
+          center: [-101.17, 21.78],
+          qualityProfile: "high",
+          alphaCompositingEnabled: true,
+          highlightOptions: {
+            fillOpacity: 0,
+            color: "#ffffff"
+          },
+          constraints: {
+            altitude: {
+              min: 7000000
+            }
+          }
+        });
+
+        view.ui.empty("top-left");
+        view.environment.background = {
+          type: "color",
+          color: [0, 0, 0, 0]
+        };
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="optionsDiv">
+        <button id="linearSlow">Linear slow flight</button>
+        <button id="Northern Hemisphere">Northern Hemisphere</button>
+        <button id="Southern Hemisphere">Southern Hemisphere</button>
+        <button id="Russia PoV">Russia</button>
+    </div>
+    <div id="viewDiv"></div>
+    <div id="crt_ertdlyYY"></div>
+    <div id="crt_ertdlyY"></div>
+    <div id="crt_ertdly"></div>
+    <div id="viewDiv2"></div>
+      <div style="position:absolute;z-index:100; bottom:30px;left:10px;background-color:rgba(56,56,56,0.6);color:rgba(255,255,255, 0.6);font-size: smaller;padding-left:5px; padding-right:5px">
+<br/><center><B>PARAMETERS</B></center><br/>
+<table style="margin: 0 auto;">
+    <tr>
+        <td>Generated At:</td>
+        <td><span id="genat">2020-01-21 10:45</span> UT</td>
+    </tr>
+        <tr>
+        <td></td>
+        <td><span id="empty1"></span></td>
+    </tr>
+    <tr style="text-align:center">
+        <td colspan="2">
+<b>Bulk Parameters of the Solar Wind Plasma</b>
+        </td>
+    </tr>
+    <tr>
+        <td nowrap>Proton Density  </td>
+        <td><span id="prdens">1.3</span> #/cc</td>
+    </tr>
+    <tr>
+        <td>Ion Temp.  </td>
+        <td><span id="iontemp">1.3</span> K</td>
+    </tr>
+    <tr>
+        <td>Bulk Speed  </td>
+        <td><span id="bulkspeed">1.3</span> km/s</td>
+    </tr> 
+    <tr>
+        <td></td>
+        <td><span id="empty1"></span></td>
+    </tr>
+    <tr style="text-align:center">
+        <td colspan="2">
+            <b>Interplanetary Magnetic Field (GSM Coordinates)</b>
+        </td>
+    </tr>
+    <tr>
+        <td>Bx  </td>
+        <td><span id="bx">1.3</span> nT</td>
+    </tr>
+    <tr>
+        <td>By  </td>
+        <td><span id="by">1.3</span> nT</td>
+    </tr>
+    <tr>
+        <td>Bz  </td>
+        <td><span id="bz">1.3</span> nT</td>
+    </tr>
+    <tr>
+        <td>Bt  </td>
+        <td><span id="bt">1.3</span> nT</td>
+    </tr>
+    <tr>
+        <td>Lat  </td>
+        <td><span id="lat">1.3</span> deg</td>
+    </tr>
+    <tr>
+        <td>Long  </td>
+        <td><span id="long">1.3</span> deg</td>
+    </tr>
+   
+</table>
+  </body>
+</html>

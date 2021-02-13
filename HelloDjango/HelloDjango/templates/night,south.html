@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Aurora-forecast</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        background-color: black;
+      }
+      
+      
+      #topbar {
+        background: none;
+        padding: none;
+        color: #e4e4e4;
+      }
+      
+      .action-button {
+        font-size: 16px;
+        background-color: transparent;
+        border: 1px solid #d3d3d3;
+        color: #6e6e6e;
+        height: 32px;
+        width: 32px;
+        text-align: center;
+        box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+      }
+
+      .action-button:hover,
+      .action-button:focus {
+        background: #546670;
+        color: #e4e4e4;
+      }
+
+      .activee {
+        background: #546670;
+        color: #e4e4e4;
+      }
+      
+      #optionsDiv {
+        position: absolute;
+        bottom: 17px;
+        width: 100%;
+        padding: 20px 0;
+        z-index: 1;
+        text-align: center;
+      }
+      #clrbar{
+  position:absolute;
+  top: 85px;
+  left: 20px;
+  width:20px;
+  height:185px;
+  overflow:hidden;
+}
+img{
+  position:absolute;
+opacity: 0.6;
+ z-index: 200;
+}
+      button {
+        border: 5px;
+        margin: 5px;
+        background:none;
+        color:rgba(255,255,255, 0.6);
+        font-size: smaller;
+        padding-left:5px; 
+        padding-right:5px;
+        position: static;
+        z-index:1;
+      }
+
+      button:hover {
+        color: white;
+        cursor: pointer;
+      }
+      
+      .button--active {
+          background-color:#546670;
+      }
+      
+      #viewDiv2 {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        position:fixed;
+        background:none;
+      }
+#crt_ertdlyYY{
+    height: 75px;
+  width: 305px;
+    position: absolute;
+    bottom: 350px; 
+    right: 10px;
+    z-index:1;
+    opacity: 0.6;
+    display:block;
+    transition: 2s;
+}
+#crt_ertdlyY{
+    height: 75px;
+  width: 305px;
+    position: absolute;
+    bottom: 510px; 
+    right: 10px;
+    z-index:1;
+    opacity: 0.6;
+    display:block;
+    transition: 2s;
+}
+#crt_ertdly{
+    height: 75px;
+  width: 305px;
+    position: absolute;
+    bottom: 270px; 
+    right: 10px;
+    z-index:1;
+    opacity: 0.6;
+    display:block;
+    transition: 2s;
+}
+#grades{
+  position:absolute;
+  z-index:100; 
+  top:84px;
+  left:48px;
+  background:none;
+  color:rgba(255,255,255, 0.6);
+  font-size: smaller;
+  padding:3px
+}
+#probability{
+  position:absolute;
+  z-index:1000; 
+  top:40px;
+  left:10px;
+  background:none;
+  color:rgba(255,255,255, 0.6);
+  font-size: smaller;
+  padding:3px
+}
+#prob_container{
+  position:absolute;
+  z-index:100;
+   top:40px;
+   left:10px;
+    width: 70px;
+    height:235px; 
+    background-color:rgba(56,56,56,0.6);
+    color:rgba(255,255,255, 0.6);
+    font-size: smaller;
+    padding:none
+}
+#parameters{
+  position:absolute;
+  z-index:100; 
+  bottom:30px;
+  left:10px;
+  background-color:
+  rgba(56,56,56,0.6);
+  color:rgba(255,255,255, 0.6);
+  font-size: smaller;
+  padding-left:5px; 
+  padding-right:5px
+}
+#grbx{
+    height: 75px;
+  width: 305px;
+    position: absolute;
+    bottom: 190px; 
+    right: 10px;
+    z-index:1;
+    opacity: 0.6;
+    display:block;
+    transition: 2s;
+}
+#grby{
+    height: 75px;
+  width: 305px;
+    position: absolute;
+    bottom: 110px; 
+    right: 10px;
+    z-index:1;
+    opacity: 0.6;
+    display:block;
+    transition: 2s;
+}
+#grbz{
+    height: 75px;
+  width: 305px;
+    position: absolute;
+    bottom: 30px; 
+    right: 10px;
+    z-index:1;
+    opacity: 0.6;
+    display:block;
+    transition: 2s;
+}
+#grbt{
+    height: 75px;
+  width: 305px;
+    position: absolute;
+    bottom: 430px; 
+    right: 10px;
+    z-index:1;
+    opacity: 0.6;
+    display:block;
+    transition: 2s;
+}
+.active{
+opacity: 1;
+height: 150px;
+}
+
+
+@media(max-width:750px){
+  #grades{
+opacity: 0;
+}
+  #prob_container{
+    opacity: 0;
+  }
+  #probability{
+    opacity: 0;
+  }
+  #clrbar{
+    opacity: 0;
+  }
+  #crt_ertdlyYY{
+    height: 60px;
+  width: 175px;
+  }
+  #parameters{
+    width: 200px;
+  }
+  #crt_ertdlyY{
+    height: 60px;
+  width: 175px;
+  }
+  #crt_ertdly{
+    height: 60px;
+  width: 175px;
+  }
+#grbx{
+  height: 60px;
+  width: 175px;
+}
+#grbt{
+  height: 60px;
+  width: 175px;
+}
+#grbz{
+  height: 60px;
+  width: 175px;
+}
+#grby{
+  height: 60px;
+  width: 175px;
+}
+}
+body {background: url(https://html5book.ru/wp-content/uploads/2015/07/background39.png);}
+#a{
+  position:absolute;
+  left:183px;
+  bottom:65px;
+ border: 5px;
+    margin: 5px;
+        background-color:rgba(56,56,56,0.6);
+        color:rgba(255,255,255, 0.6);
+        font-size: smaller;
+        padding-left:5px; 
+        padding-right:5px;
+        z-index:101;
+}
+#a:hover {
+  background: #546670;
+  color: white;
+  cursor: pointer;
+}
+      #viewDiv canvas {
+        filter: drop-shadow(16px 16px 10px rgba(0, 0, 0, 0.5));
+      }
+
+      .esri-legend {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
+    />
+   <!--  <script src="https://js.arcgis.com/4.14/"></script> -->
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+ <script src="http://aurora-forecast.ru/jquery.csv.min.js"></script>
+ <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript"> // load the visualisation API
+  google.load('visualization', '1', { packages: ['corechart', 'controls'] });
+ // setTimeout(function(){
+ //   location.reload();
+//}, 240000);
+</script>
+
+<script type="text/javascript">
+
+const urlhemip =  "http://aurora-forecast.ru/hemipower_ext.csv";
+const urlmag =  "http://aurora-forecast.ru/graph_mag.csv";
+const url =  "http://aurora-forecast.ru/graph_plas.csv";
+function drawVisualization() {
+   $.get(url, function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // CAPACITY - En-route ATFM delay - YY - CHART
+      var crt_ertdlyYY = new google.visualization.ChartWrapper({
+         chartType: 'LineChart',
+         containerId: 'crt_ertdlyYY',
+         dataTable: data,
+          options:{
+             lineWidth: 1.5,
+             colors: ['#FFFF66'],
+              legend: 'none',
+            title: 'Density, #/cc',
+            titleTextStyle : {color: 'white', fontSize: 11},
+                backgroundColor: '#373737',
+                hAxis: {
+                   // gridlines: { count: 10 },
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                vAxis: {
+                   // gridlines: { count: 7 },
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                is3D: true
+                 }
+      });
+      //chart.draw(view, options);
+      crt_ertdlyYY.setView({'columns': [0, 1]});
+      crt_ertdlyYY.draw();
+      //crt_ertdlyYY.draw();
+   });
+}
+google.setOnLoadCallback(drawVisualization)
+function drawVisualizationgrbx() {
+   $.get(urlmag, function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // CAPACITY - En-route ATFM delay - YY - CHART
+      var grbx = new google.visualization.ChartWrapper({
+         chartType: 'LineChart',
+         containerId: 'grbx',
+         dataTable: data,
+         options:{
+             lineWidth: 1.5,
+             colors: ['#CC9900'],
+             bar: {groupWidth: '95%'},
+             legend: 'none',
+            title: 'Bx, nT',
+            textStyle:{color: '#FFF'},
+            titleTextStyle : {color: 'white', fontSize: 11},
+           backgroundColor: '#373737',
+                hAxis: {
+         baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                vAxis: {
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                    gridlines: { count:5 },
+                textStyle:{color: '#FFF'},
+                },
+                is3D: true
+         }
+      });
+      grbx.setView({'columns': [0, 1]});
+      grbx.draw();
+   });
+}
+google.setOnLoadCallback(drawVisualizationgrbx)
+
+function drawVisualizationgrby() {
+   $.get(urlmag, function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // CAPACITY - En-route ATFM delay - YY - CHART
+      var grby = new google.visualization.ChartWrapper({
+         chartType: 'LineChart',
+         containerId: 'grby',
+         dataTable: data,
+         options:{
+             lineWidth: 1.5,
+             colors: ['#FF6600'],
+             bar: {groupWidth: '95%'},
+             legend: 'none',
+            title: 'By, nT',
+            textStyle:{color: '#FFF'},
+            titleTextStyle : {color: 'white', fontSize: 11},
+           backgroundColor: '#373737',
+                hAxis: {
+         baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                vAxis: {
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                    gridlines: { count:5 },
+                textStyle:{color: '#FFF'},
+                },
+                is3D: true
+         }
+      });
+      grby.setView({'columns': [0, 2]});
+      grby.draw();
+   });
+}
+google.setOnLoadCallback(drawVisualizationgrby)
+
+function drawVisualizationgrbz() {
+   $.get(urlmag, function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // CAPACITY - En-route ATFM delay - YY - CHART
+      var grbz = new google.visualization.ChartWrapper({
+         chartType: 'LineChart',
+         containerId: 'grbz',
+         dataTable: data,
+         options:{
+             lineWidth: 1.5,
+             colors: ['#CC0000'],
+             bar: {groupWidth: '95%'},
+             legend: 'none',
+            title: 'Bz, nT',
+            textStyle:{color: '#FFF'},
+            titleTextStyle : {color: 'white', fontSize: 11},
+           backgroundColor: '#373737',
+                hAxis: {
+         baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                vAxis: {
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                    gridlines: { count:5 },
+                textStyle:{color: '#FFF'},
+                },
+                is3D: true
+         }
+      });
+      grbz.setView({'columns': [0, 3]});
+      grbz.draw();
+   });
+}
+google.setOnLoadCallback(drawVisualizationgrbz)
+
+function drawVisualizationgrbt() {
+   $.get(urlhemip, function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // CAPACITY - En-route ATFM delay - YY - CHART
+      var grbt = new google.visualization.ChartWrapper({
+         chartType: 'LineChart',
+         containerId: 'grbt',
+         dataTable: data,
+         options:{
+             lineWidth: 1.5,
+             colors: ['#7CFC00'],
+             bar: {groupWidth: '95%'},
+             legend: 'none',
+            title: 'SouthHPI, GW',
+            textStyle:{color: '#FFF'},
+            titleTextStyle : {color: 'white', fontSize: 11},
+           backgroundColor: '#373737',
+                hAxis: {
+         baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                vAxis: {
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                    gridlines: { count:5 },
+                textStyle:{color: '#FFF'},
+                },
+                is3D: true
+         }
+      });
+      grbt.setView({'columns': [0, 2]});
+      grbt.draw();
+   });
+}
+google.setOnLoadCallback(drawVisualizationgrbt)
+
+const url1 =  "http://aurora-forecast.ru/graph_plas.csv";
+const urlcircles = "http://aurora-forecast.ru/circles.csv";
+function drawVisualization1() {
+   $.get(urlhemip, function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // CAPACITY - En-route ATFM delay - YY - CHART
+      var crt_ertdlyY = new google.visualization.ChartWrapper({
+         chartType: 'LineChart',
+         containerId: 'crt_ertdlyY',
+         dataTable: data,
+         options:{
+             lineWidth: 1.5,
+             colors: ['#FF00FF'],
+             bar: {groupWidth: '95%'},
+             legend: 'none',
+            title: 'NorthHPI, GW',
+            textStyle:{color: '#FFF'},
+            titleTextStyle : {color: 'white', fontSize: 11},
+           backgroundColor: '#373737',
+                hAxis: {
+         baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                vAxis: {
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                    gridlines: { count:5 },
+                textStyle:{color: '#FFF'},
+                },
+                is3D: true
+         }
+      });
+      crt_ertdlyY.setView({'columns': [0, 1]});
+      crt_ertdlyY.draw();
+   });
+}
+google.setOnLoadCallback(drawVisualization1)
+const url2 =  "http://aurora-forecast.ru/graph_plas.csv";
+function drawVisualization2() {
+   $.get(url2, function(csvString) {
+      // transform the CSV string into a 2-dimensional array
+      var arrayData = $.csv.toArrays(csvString, {onParseValue: $.csv.hooks.castToScalar});
+
+      // this new DataTable object holds all the data
+      var data = new google.visualization.arrayToDataTable(arrayData);
+      // CAPACITY - En-route ATFM delay - YY - CHART
+      var crt_ertdly = new google.visualization.ChartWrapper({
+         chartType: 'LineChart',
+         containerId: 'crt_ertdly',
+         dataTable: data,
+         options:{
+             lineWidth: 1.5,
+             colors: ['#009996'],
+             legend: 'none',
+            title: 'Speed, km/s',
+            titleTextStyle : {color: 'white', fontSize: 11},
+                backgroundColor: '#373737',
+                hAxis: {
+                     baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'}},
+                is3D: true,
+                vAxis: { gridlines: { count:5 },
+                 baselineColor: '#ccc',
+         gridlineColor: '#ccc',
+                textStyle:{color: '#FFF'} }
+         }
+      });
+      crt_ertdly.setView({'columns': [0, 2]});
+      crt_ertdly.draw();
+   });
+}
+google.setOnLoadCallback(drawVisualization2)
+</script>
+<script src="https://js.arcgis.com/4.14/"></script>
+    <script>
+      require([
+        "esri/Map",
+        "esri/layers/CSVLayer",
+        "esri/views/SceneView",
+        "esri/widgets/DirectLineMeasurement3D",
+        "esri/widgets/AreaMeasurement3D",
+        "esri/layers/GraphicsLayer",
+        "esri/Graphic"
+
+      ], function(Map, CSVLayer,SceneView,DirectLineMeasurement3D,AreaMeasurement3D,GraphicsLayer, Graphic) {
+        var activeWidget = null;
+
+
+        // If CSV files are not on the same domain as your website, a CORS enabled server
+        // or a proxy is required.
+        const url =  "aurora_ext.csv";
+        const url1 = "stations.csv";
+         // Paste the url into a browser's address bar to download and view the attributes
+        // in the CSV file. These attributes include:
+        // * mag - magnitude
+        // * type - earthquake or other event such as nuclear test
+        // * place - location of the event
+        // * time - the time of the event
+
+        const template = {
+          title: "",
+          content: "Intensivity {category} latitude {latitude} longitude {longitude}."
+        };
+
+        const csvLayer = new CSVLayer({
+          url: url,
+          copyright: "",
+          popupTemplate: template
+        });
+        
+        const template1 = {
+          title: "",
+          content: " {IAGA} (Glat: {latitude}, Glong: {longitude})"
+        };
+const templateArcCircle = {
+          title: "{any} Arctic Pole",
+          content: [
+        {
+          type: "fields",
+          fieldInfos: [
+            {
+              fieldName: "longitude"
+            },
+            {
+              fieldName: "latitude"
+            }
+          ]
+        }
+      ]
+        };
+        const csvLayer1 = new CSVLayer({
+          url: url1,
+          copyright: "",
+          popupTemplate: template1
+        });
+        const csvLayerArcCircle = new CSVLayer({
+          url: urlcircles,
+          copyright: "",
+          popupTemplate: templateArcCircle
+        });
+var del = 10;
+function shiftCamera(deg) {
+          var camera = view.camera.clone();
+          camera.position.longitude += deg;
+          if (camera.position.latitude > 79) {
+              del *= -1;
+          } 
+          if (camera.position.latitude < -79) {
+              del *= -1;
+          } 
+          camera.position.latitude += del;
+          return camera;
+        }
+        var datade = new Date();
+        var _i = 2500;
+        var timerID;
+        var flag_timer = false;
+        var longitude__ = (datade.getUTCHours() * 60 + datade.getUTCMinutes()) *0.25;
+        if (longitude__>180) {
+            longitude__ = 180 - (longitude__ - 180);
+        }
+        else {longitude__ = - longitude__;}
+        var latitude__ = 38;
+        var backgr = document.getElementById("FreeMod");
+       // var backg = document.getElementById("linearSlow");
+    
+        
+      /*  document
+          .getElementById("linearSlow")
+          .addEventListener("click", function() {
+              flag_timer = !flag_timer;
+              
+             if (flag_timer) {
+            timerID = setInterval(function() {
+            view.goTo(
+              shiftCamera(20),
+              {
+                speedFactor: 0.2,
+                easing: "linear"
+                      }
+                );
+        }, _i );
+             }
+             else { clearInterval(timerID);}
+         view.goTo(
+              shiftCamera(30),
+              {
+                speedFactor: 0.2,
+                easing: "linear"
+                      }
+                );
+    });*/
+    
+    flag = true;
+        
+    document
+          .getElementById("FreeMod")
+          .addEventListener("click", function stopIT() {
+              flag = !flag;
+    });
+    
+    backgr.addEventListener("click", function() {
+              backgr.classList.toggle("button--active");
+    });
+    /*backg.addEventListener("click", function() {
+              backg.classList.toggle("button--active");
+    });*/
+    
+    
+         document
+          .getElementById("Northern Hemisphere")
+          .addEventListener("click", function() {
+              //flag = !flag;
+              
+              //clearInterval(timerID);
+              view.environment = {
+            lighting: 
+  {
+    directShadowsEnabled: true,
+    date: datade
+  }
+          }
+            view.goTo(
+              {
+                position: {
+                  x: longitude__,
+                  y: 89,
+                  z: 15000000,
+                  spatialReference: {
+                    wkid: 4326
+                  }
+                },
+                heading: 0,
+                tilt: 0
+              },
+              {
+                speedFactor: 0.3,
+                easing: "linear"
+              }
+            );
+          });
+          document
+          .getElementById("Southern Hemisphere")
+          .addEventListener("click", function() {
+              view.environment = {
+            lighting: 
+  {
+    directShadowsEnabled: true,
+    date: datade
+  }
+          }
+            view.goTo(
+              {
+                position: {
+                  x: longitude__,
+                  y: -89,
+                  z: 15000000,
+                  spatialReference: {
+                    wkid: 4326
+                  }
+                },
+                heading: 0,
+                tilt: 0
+              },
+              {
+                speedFactor: 0.3,
+                easing: "linear"
+              }
+            );
+          });
+          document
+          .getElementById("Midnight")
+          .addEventListener("click", function() {
+              console.log(longitude__);
+              view.environment = {
+            lighting: 
+  {
+    directShadowsEnabled: true,
+    date: datade
+  }
+          }
+            view.goTo(
+              {
+                position: {
+                  x: longitude__,
+                  y: latitude__,
+                  z: 25000000,
+                  spatialReference: {
+                    wkid: 4326
+                  }
+                },
+                heading: 0,
+                tilt: 0
+              },
+              {
+                speedFactor: 0.3,
+                easing: "linear"
+              }
+            );
+          });
+          document
+          .getElementById("Russia PoV")
+          .addEventListener("click", function() {
+              view.environment = {
+            lighting: 
+  {
+    directShadowsEnabled: true,
+    date: datade
+  }
+          }
+            view.goTo(
+              {
+                position: {
+                  x: 103.4,
+                  y: 66.52,
+                  z: 7900000,
+                  spatialReference: {
+                    wkid: 4326
+                  }
+                },
+                heading: 0,
+                tilt: 0
+              },
+              {
+                speedFactor: 0.3,
+                easing: "linear"
+              }
+            );
+          });
+          
+          
+        csvLayer.renderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "point-3d", // autocasts as new PointSymbol3D()
+            // for this symbol we use 2 symbol layers, one for the outer circle
+            // and one for the inner circle
+            symbolLayers: [
+              {
+                type: "icon", // autocasts as new IconSymbol3DLayer()
+                size:20
+              }
+              /*,
+              {
+                type: "icon", // autocasts as new IconSymbol3DLayer()
+                resource: { primitive: "circle" },
+                material: { color: [255, 84, 54, 0] },
+                outline: { color: [255, 84, 54, 0.6], size: 1 },
+                size: 25
+              }*/
+            ]
+          },
+          visualVariables: [
+              {
+      type: "size",
+      field: "Category",
+  stops: [
+    { value: 4, size: 11},
+    { value: 30, size: 11}
+  ]},
+            {
+              type: "color",
+              field: "category",
+              stops: [
+        { value: 4, color: [0, 116, 165,0.1] }, 
+        { value: 15, color: [246, 255, 146,0.15] },
+       { value: 27, color: 	[255, 200, 47,0.2] },
+       { value: 40, color: [241, 106, 22,0.23] },
+        { value: 70, color: [231, 51, 26,0.28] },
+        { value: 100, color: [255, 0, 0,0.4] }
+      ]
+              /*stops: [
+                {
+                  value: 30,
+                  color:  [193, 0, 32,0.3]
+                },
+                {
+                  value: 18,
+                  color: [193, 0, 32,0.15]
+                },
+                {
+                  value: 6,
+                  color: [193, 0, 32,0.1]
+                }
+              ]*/
+            },
+          ]
+        };
+        csvLayerArcCircle.renderer = {
+  type: "simple", // autocasts as new SimpleRenderer()
+symbol: {
+type: "simple-marker", // autocasts as new PointSymbol3D()
+// for this symbol we use 2 symbol layers, one for the outer circle
+// and one for the inner circle
+// symbolLayers: [
+size: 15,
+color: "yellow",
+outline: { // autocasts as new SimpleLineSymbol()
+width: 1,
+color: "black"
+}}
+};
+        csvLayer1.renderer = {
+          type: "simple", // autocasts as new SimpleRenderer()
+          symbol: {
+            type: "point-3d", // autocasts as new PointSymbol3D()
+            // for this symbol we use 2 symbol layers, one for the outer circle
+            // and one for the inner circle
+            symbolLayers: [
+              {
+                type: "icon", // autocasts as new IconSymbol3DLayer()
+                resource: { primitive: "circle" },
+                material: { color: [255, 84, 54, 1] },
+                size: 3
+              },
+              {
+                type: "icon", // autocasts as new IconSymbol3DLayer()
+                resource: { primitive: "circle" },
+                material: { color: [255, 84, 54, 0] },
+                outline: { color: [255, 84, 54, 0.6], size: 1 },
+                size: 5
+              }
+            ]
+          }
+        };
+//csvLayer.opacity = 0.1;
+csvLayerArcCircle.opacity = 1;
+csvLayer.opacity = 1;
+csvLayer1.opacity = 0.65;
+        const map = new Map({
+          basemap: "streets-night-vector",
+        ground: "world-elevation",
+        maxZoom: 5,
+        effectiveMaxZoom:5,
+        effectiveMinZoom:5,
+        minZoom: 5,
+        maxScale: 5000000
+
+
+
+        });
+//var datade = new Date();
+        map.add(csvLayer);
+        map.add(csvLayer1);
+         map.add(csvLayerArcCircle);
+//var longitude__ = (datade.getUTCHours() * 60 + datade.getUTCMinutes()) *0.25 - 180;
+//var latitude__ = 38;
+centrr = [longitude__+180,latitude__];
+ setTimeout(function(){
+    location.reload();
+    
+}, 420000);
+        const view = new SceneView({
+          container: "viewDiv",
+          map: map,
+          scale: 60000000,
+          minScale:30000000,
+          //center: [-101.17, 21.78],
+          center: centrr,
+          qualityProfile: "high",
+          alphaCompositingEnabled: true,
+          highlightOptions: {
+            fillOpacity: 0,
+            color: "#ffffff"
+          },
+          constraints: {
+            altitude: {
+              min: 7000000
+            }
+          },
+        });
+        
+        view.on("drag", function(event) {
+            view.environment = {
+            lighting: 
+  {
+    directShadowsEnabled: true,
+    date: datade
+  }
+          }
+        if (flag) event.stopPropagation();})
+        
+        
+        
+        view.ui.empty("top-left");
+        view.on("drag", function(evt){
+ console.log("drag state", evt.action);
+               clearInterval(timerID);
+});
+        view.environment.background = {
+          type: "color",
+          color: [0, 0, 0, 0]
+        };
+        
+        var coordsWidget = document.createElement("div");
+      coordsWidget.id = "coordsWidget";
+      coordsWidget.className = "esri-widget esri-component";
+      coordsWidget.style.padding = "5px 5px 5px";
+      coordsWidget.style.background = "rgba(56,56,56,0.6)";
+      coordsWidget.style.color = "rgba(255,255,255, 0.6)";
+      view.ui.add(coordsWidget, "top-right");
+        view.ui.add("topbar", "top-right");
+
+        document
+          .getElementById("distanceButton")
+          .addEventListener("click", function() {
+            setActiveWidget(null);
+            if (!this.classList.contains("activee")) {
+              setActiveWidget("distance");
+            } else {
+              setActiveButton(null);
+            }
+          });
+
+        document
+          .getElementById("areaButton")
+          .addEventListener("click", function() {
+            setActiveWidget(null);
+            if (!this.classList.contains("activee")) {
+              setActiveWidget("area");
+            } else {
+              setActiveButton(null);
+            }
+          });
+        
+        function setActiveWidget(type) {
+          switch (type) {
+            case "distance":
+              activeWidget = new DirectLineMeasurement3D({
+                view: view
+              });
+
+              // skip the initial 'new measurement' button
+              activeWidget.viewModel.newMeasurement();
+
+              view.ui.add(activeWidget, "middle");
+              setActiveButton(document.getElementById("distanceButton"));
+              break;
+            case "area":
+              activeWidget = new AreaMeasurement3D({
+                view: view
+              });
+
+              // skip the initial 'new measurement' button
+              activeWidget.viewModel.newMeasurement();
+
+              view.ui.add(activeWidget, "middle");
+              setActiveButton(document.getElementById("areaButton"));
+              break;
+            case null:
+              if (activeWidget) {
+                view.ui.remove(activeWidget);
+                activeWidget.destroy();
+                activeWidget = null;
+              }
+              break;
+          }
+        }
+
+        function setActiveButton(selectedButton) {
+          // focus the view to activate keyboard shortcuts for sketching
+          view.focus();
+          var elements = document.getElementsByClassName("activee");
+          for (var i = 0; i < elements.length; i++) {
+            elements[i].classList.remove("activee");
+          }
+          if (selectedButton) {
+            selectedButton.classList.add("activee");
+          }
+        }
+        //var coordsWidget = document.createElement("div");
+     // coordsWidget.id = "coordsWidget";
+     // coordsWidget.className = "esri-widget esri-component";
+     // coordsWidget.style.padding = "5px 5px 5px";
+      //coordsWidget.style.background = "rgba(56,56,56,0.6)";
+     // coordsWidget.style.color = "rgba(255,255,255, 0.6)";
+     // view.ui.add(coordsWidget, "top-right");
+
+      //*** Update lat, lon, zoom and scale ***//
+      function showCoordinates(pt) {
+          if(pt!=null) {
+        var coords = "Lat/Lon " + pt.latitude.toFixed(3) + " " + pt.longitude.toFixed(3) + 
+            " | Scale 1:" + Math.round(view.scale * 1) / 1;
+        coordsWidget.innerHTML = coords;
+          }
+      }
+      
+      //*** Add event and show center coordinates after the view is finished moving e.g. zoom, pan ***//
+      view.watch(["stationary"], function() {
+        showCoordinates(view.center);
+      });
+
+      //*** Add event to show mouse coordinates on click and move ***//
+      view.on(["pointer-down","pointer-move"], function(evt) {
+        showCoordinates(view.toMap({ x: evt.x, y: evt.y }));
+      });
+      
+      var graphicsLayer = new GraphicsLayer();
+        map.add(graphicsLayer);
+        
+      var polyline = {
+          type: "polyline", // autocasts as new Polyline()
+          paths: [
+            [longitude__, 90, 10000],
+            [longitude__, 85, 10000],
+            [longitude__, 80, 10000],
+            [longitude__, 75, 10000],
+            [longitude__, 70, 10000],
+            [longitude__, 65, 10000],
+            [longitude__, 60, 10000],
+            [longitude__, 55, 10000],
+            [longitude__, 50, 10000],
+            [longitude__, 45, 10000],
+            [longitude__, 40, 10000],
+            [longitude__, 35, 10000],
+            [longitude__, 30, 10000],
+            [longitude__, 25, 10000],
+            [longitude__, 20, 10000],
+            [longitude__, 15, 10000],
+            [longitude__, 10, 10000],
+            [longitude__, 5, 10000],
+            [longitude__, 0, 10000],
+            [longitude__, -5, 10000],
+            [longitude__, -10, 10000],
+            [longitude__, -15, 10000],
+            [longitude__, -20, 10000],
+            [longitude__, -25, 10000],
+            [longitude__, -30, 10000],
+            [longitude__, -35, 10000],
+            [longitude__, -40, 10000],
+            [longitude__, -45, 10000],
+            [longitude__, -50, 10000],
+            [longitude__, -55, 10000],
+            [longitude__, -60, 10000],
+            [longitude__, -65, 10000],
+            [longitude__, -70, 10000],
+            [longitude__, -75, 10000],
+            [longitude__, -80, 10000],
+            [longitude__, -85, 10000],
+            [longitude__, -90, 10000]
+          ]
+        };
+        var polyline2 = {
+          type: "polyline", // autocasts as new Polyline()
+          paths: [
+            [0, 90, 10000],
+            [0, 85, 10000],
+            [0, 80, 10000],
+            [0, 75, 10000],
+            [0, 70, 10000],
+            [0, 65, 10000],
+            [0, 60, 10000],
+            [0, 55, 10000],
+            [0, 50, 10000],
+            [0, 45, 10000],
+            [0, 40, 10000],
+            [0, 35, 10000],
+            [0, 30, 10000],
+            [0, 25, 10000],
+            [0, 20, 10000],
+            [0, 15, 10000],
+            [0, 10, 10000],
+            [0, 5, 10000],
+            [0, 0, 10000],
+            [0, -5, 10000],
+            [0, -10, 10000],
+            [0, -15, 10000],
+            [0, -20, 10000],
+            [0, -25, 10000],
+            [0, -30, 10000],
+            [0, -35, 10000],
+            [0, -40, 10000],
+            [0, -45, 10000],
+            [0, -50, 10000],
+            [0, -55, 10000],
+            [0, -60, 10000],
+            [0, -65, 10000],
+            [0, -70, 10000],
+            [0, -75, 10000],
+            [0, -80, 10000],
+            [0, -85, 10000],
+            [0, -90, 10000]
+          ]
+        };
+        lineSymbol = {
+          type: "simple-line", // autocasts as SimpleLineSymbol()
+          color: [59, 178, 226,0.33],
+          width: 2
+        };
+         lineSymbol2 = {
+          type: "simple-line", // autocasts as SimpleLineSymbol()
+          color: [80, 200, 120,0.33],
+          width: 2
+        };
+        
+        var polylineGraphic = new Graphic({
+          geometry: polyline,
+          symbol: lineSymbol
+        });
+        graphicsLayer.add(polylineGraphic);
+        
+        var polylineGraphic2 = new Graphic({
+          geometry: polyline2,
+          symbol: lineSymbol2
+        });
+        graphicsLayer.add(polylineGraphic2);
+        
+      });
+      
+      
+      
+      const url_ =  "http://aurora-forecast.ru/mag_ext.json"
+ $.getJSON(url_, function(data){
+  //console.log(data);
+var datade = new Date();
+  $.each(data, function(key, val){
+    var time = val.time_tag;
+    var bx = val.bx_gsm;
+    var by = val.by_gsm;
+    var bz = val.bz_gsm;
+    var long = val.lon_gsm;
+    var lat = val.lat_gsm;
+    var bt = val.bt;
+
+        document.getElementById("genat").innerHTML = time;
+        document.getElementById("bx").innerHTML = bx;
+        document.getElementById("by").innerHTML = by;
+        document.getElementById("bz").innerHTML = bz;
+        document.getElementById("lat").innerHTML = lat;
+        document.getElementById("long").innerHTML = long;
+  });
+  if(datade.getUTCMinutes()<10) {
+      document.getElementById("utctime").innerHTML = (datade.getFullYear() + '-' + (datade.getMonth() + 1) + '-' + datade.getDate() + ' ' + datade.getUTCHours() +':' + '0' + datade.getUTCMinutes());
+  }
+else {document.getElementById("utctime").innerHTML = (datade.getFullYear() + '-' + (datade.getMonth()+1) + '-' + datade.getDate() + ' ' + datade.getUTCHours() +':' + datade.getUTCMinutes());
+}
+});
+const url__ =  "http://aurora-forecast.ru/plas_ext.json"
+ $.getJSON(url__, function(data){
+  console.log(data);
+
+  $.each(data, function(key, val){
+    var dens = val.density;
+    var temp = val.northpi;
+    var speed = val.speed;
+    var southhpi = val.southpi;
+
+        document.getElementById("prdens").innerHTML = dens;
+        document.getElementById("iontemp").innerHTML = temp;
+        document.getElementById("bulkspeed").innerHTML = speed;
+        document.getElementById("southhpi").innerHTML = southhpi;
+  });
+
+});
+      
+      
+      
+    </script>
+  </head>
+
+  <body>
+      
+      <div id="topbar">
+        
+      <button
+        class="action-button esri-icon-measure-line"
+        id="distanceButton"
+        type="button"
+        title="Measure distance between two points"
+      ></button>
+      <button
+        class="action-button esri-icon-measure-area"
+        id="areaButton"
+        type="button"
+        title="Measure area"
+      ></button>
+      
+
+    
+    </div>
+    
+    <div id="optionsDiv">
+        <button id="Midnight">Midnight</button>
+        <button id="Northern Hemisphere">Northern Hemisphere</button>
+        <button id="Southern Hemisphere">Southern Hemisphere</button>
+        <button id="Russia PoV">Russia</button>
+        <button id="FreeMod">Free view</button>
+    </div>
+    <div id="clrbar"><img src="http://aurora-forecast.ru/clrgrade.JPG"></div>
+    <div id="viewDiv"></div>
+    <div id="crt_ertdlyYY"></div>
+    <div id="crt_ertdlyY"></div>
+    <div id="crt_ertdly"></div>
+    <div id="grbx"></div>
+    <div id="grby"></div>
+    <div id="grbz"></div>
+    <div id="grbt"></div>
+    <div style="position:absolute;z-index:100; top:10px;left:10px;background-color:rgba(56,56,56,0);color:rgba(255,255,255, 0.6);font-size: smaller;padding:3px">
+       <table style="margin: 0 auto;">
+           <tr>
+
+        <td><span id="utctime" style="padding-left:0px">20:15 </span></td>
+        <td> </td>
+        <td>UT </td>
+        <td><button id="About" style="padding-left:40px" onclick="window.open('https://yadi.sk/d/1tcotPP7n1l-Qw', '_blank').focus();"><b>About Aurora</b></button></td>
+        </tr>
+        </table>
+        </div>
+        
+       <div id="probability" style="margin-top:30px;left:100px;height:200px">
+           <div><a href="https://ifz.ru/"><img src="http://aurora-forecast.ru/ifz.jpeg" width="100" height="100" alt="" style="opacity:1" title="ifz"></a></div>
+           <br/>
+           <div style="margin-top:88px"><a href="http://www.gcras.ru/"><img src="http://aurora-forecast.ru/gc.jpeg" width="100" height="100" alt="" style="opacity:1" title="gc"></a></div>
+       </div>
+            <div id ="probability" style="margin-top:5px">
+           <table style="margin: 0 auto;">
+           <tr>
+        <td>Probability</td>
+        </tr>
+        </table>
+        </div>
+        
+        <div id="prob_container" style="margin-top:30px">
+        </div>
+        
+        <div id="grades">
+       <table style="margin: 0 auto;">
+           <tr style="text-align:center">
+        <td>0</td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr style="text-align:center">
+        <td>20</td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr style="text-align:center">
+        <td>40</td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr style="text-align:center">
+        <td>60</td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr style="text-align:center">
+        <td>80</td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr>
+        <td></td>
+        </tr>
+        <tr style="text-align:center">
+        <td>100</td>
+        </tr>
+        </table>
+        </div>
+  
+        <div id = "parameters" style="bottom:16px">
+<br/><center><B>PARAMETERS</B></center><br/>
+<table style="">
+    <tr>
+        <td>Generated At:</td>
+        <td><span id="genat">2020-01-21 10:45</span> UT</td>
+    </tr>
+        <tr>
+        <td></td>
+        <td><span id="empty1"></span></td>
+    </tr>
+    <tr style="text-align:center">
+        <td colspan="2">
+<b>Aurora Hemispheric Power Tabular Values</b>
+        </td>
+    </tr>
+    <tr>
+        <td>NorthHPI  </td>
+        <td style = "color:rgba(255,0,255, 0.6)"><span id="iontemp">1.3</span> GW</td>
+    </tr>
+    <tr>
+        <td>SouthHPI  </td>
+        <td style = "color:rgba(124,252,0, 0.6)"><span id="southhpi">1.3</span> GW</td>
+    </tr>
+    <tr style="text-align:center">
+        <td colspan="2">
+(Typical range 5 to 120 GW)
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr style="text-align:center">
+        <td colspan="2">
+<b>Bulk Parameters of the Solar Wind Plasma</b>
+        </td>
+    </tr>
+    <tr>
+        <td nowrap>Proton Density  </td>
+        <td style = "color:rgba(255,255,102, 0.6)"><span id="prdens">1.3</span> #/cc</td>
+    </tr>
+    <tr>
+        <td>Bulk Speed  </td>
+        <td style = "color:rgba(0, 153, 150, 0.8)"><span id="bulkspeed">1.3</span> km/s</td>
+    </tr> 
+    <tr>
+        <td></td>
+        <td><span id="empty1"></span></td>
+    </tr>
+    <tr style="text-align:center">
+        <td colspan="2">
+            <b>Interplanetary Magnetic Field (GSM Coordinates)</b>
+        </td>
+    </tr>
+    <tr>
+        <td>Bx  </td>
+        <td style = "color:rgba(204,153,0, 0.6)"><span id="bx">1.3</span> nT</td>
+    </tr>
+    <tr>
+        <td>By  </td>
+        <td style = "color:rgba(255,102,0, 0.6)"><span id="by">1.3</span> nT</td>
+    </tr>
+    <tr>
+        <td>Bz  </td>
+        <td style = "color:rgba(204,0,0, 0.6)"><span id="bz">1.3</span> nT</td>
+    </tr>
+    
+    <tr>
+        <td>Lat  </td>
+        <td><span id="lat">1.3</span> deg</td>
+    </tr>
+    <tr>
+        <td>Long  </td>
+        <td><span id="long">1.3</span> deg</td>
+    </tr>
+   
+</table>
+  </body>
+</html>
